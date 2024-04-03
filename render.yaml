@@ -1,11 +1,12 @@
 services:
 - type: web
-  name: jenkins
-  env: docker
-  buildCommand: docker build -t jenkins .
-  startCommand: docker run -p 8080:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home jenkins
-  envVars:
-  - key: JENKINS_HOME
+ name: jenkins
+ env: docker
+ buildCommand: |
+    docker build -t jenkins .
+    docker run -d -p 8080:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home --name jenkins jenkins
+ envVars:
+ - key: JENKINS_HOME
     value: /var/jenkins_home
-  - key: DOCKER_HOST
+ - key: DOCKER_HOST
     value: unix:///var/run/docker.sock
